@@ -1,7 +1,6 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -15,6 +14,8 @@
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Pages <span class="caret"></span></a>
 		  <ul class="dropdown-menu" role="menu">
 			<li><a href="index.html">Home</a></li>
+			<li role="separator" class="divider"></li>
+			<li class="dropdown-header">Projects</li>
 			<li><a href="romanNumeral.html">Roman Numerals</a></li>
 		  </ul>
 						</li>
@@ -44,11 +45,53 @@
 							<input id="answer" class="form-control"/>
 						</div>
 					</div>
+					<div class="col-xs-2 col-xs-offset-1">
+						<div class="dropdown">
+						  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Number
+						  <span class="caret"></span></button>
+						  <ul class="dropdown-menu">
+						    <li><a href="#" onclick="changeType('Number', 1)">Number</a></li>
+						    <li><a href="#" onclick="changeType('Roman', 1)">Roman Numeral</a></li>
+						  </ul>
+						</div>						
+					</div>
+					
+					<div class="col-xs-2">
+					</div>
+					
+					<div class="col-xs-2">
+						<div class="dropdown">
+						  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Number
+						  <span class="caret"></span></button>
+						  <ul class="dropdown-menu">
+						    <li><a href="#" onclick="changeType('Number', 2)">Number</a></li>
+						    <li><a href="#" onclick="changeType('Roman', 2)">Roman Numeral</a></li>
+						  </ul>
+						</div>						
+					</div>
+					
+					<div class="col-xs-2">
+					</div>
+					
+					<div class="col-xs-2">
+						<div class="dropdown">
+						  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Number
+						  <span class="caret"></span></button>
+						  <ul class="dropdown-menu">
+						    <li><a href="#" onclick="changeType('Number', 3)">Number</a></li>
+						    <li><a href="#" onclick="changeType('Roman', 3)">Roman Numeral</a></li>
+						  </ul>
+						</div>						
+					</div>
+				</div>
+				<br/>
+				<div class="col-xs-2 col-xs-offset-5">
+					<button class="btn btn-primary btn-block" type="button" onclick="performMath()">Perform Math</button>
 				</div>
 			</div>
 		</div>
-
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script type="text/javascript" src="scripts/romanNumeralAddition.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
 	</body>
 </html>
