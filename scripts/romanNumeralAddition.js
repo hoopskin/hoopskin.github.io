@@ -24,6 +24,7 @@ function changeType(romanOrNumber, partIdx) {
 
 function romanToNumber(romanNumber) {
 	var rtn = 0;
+	//TODO: What if it's not valid? (number or non-roman characters?)
 	//While there are still letters in romanNumber
 	while(romanNumber.length > 0) {
 		var idx = -1;
