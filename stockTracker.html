@@ -1,64 +1,64 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    </head>
-    <body onload="checkCookie()">
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">Hey Alex!</a>
-                </div>
-                <div class="nav navbar-nav">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Pages <span class="caret"></span></a>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="index.html">Home</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li class="dropdown-header">Projects</li>
-                            <li><a href="romanNumeral.html">Roman Numerals</a></li>
-                            <li><a href="stockTracker.html">Stock Tracker</a></li>
-                          </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Time Interval <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                              <li><a href="#" onclick="changeInterval(5)">5 seconds</a></li>
-                              <li><a href="#" onclick="changeInterval(10)">10 seconds</a></li>
-                              <li><a href="#" onclick="changeInterval(30)">30 seconds</a></li>
-                              <li><a href="#" onclick="changeInterval(60)">1 minute</a></li>
-                              <li><a href="#" onclick="changeInterval(900)">15 minutes</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="navbar-form navbar-right">
-                    <div class="form-group">
-                        <input id="stockSymbol" placeholder="E.g. AAPL" class="form-control"/>
-                    </div>
-                    <button onclick="run()" class="btn btn-success">Run</button>
-                </div>
-            </div>
-        </nav>
+	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	</head>
+	<body onload="checkCookie()">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html">Hey Alex!</a>
+				</div>
+				<div class="nav navbar-nav">
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Pages <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+							<li><a href="index.html">Home</a></li>
+							<li role="separator" class="divider"></li>
+							<li class="dropdown-header">Projects</li>
+							<li><a href="romanNumeral.html">Roman Numerals</a></li>
+							<li><a href="stockTracker.html">Stock Tracker</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Time Interval <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#" onclick="changeInterval(5)">5 seconds</a></li>
+								<li><a href="#" onclick="changeInterval(10)">10 seconds</a></li>
+								<li><a href="#" onclick="changeInterval(30)">30 seconds</a></li>
+								<li><a href="#" onclick="changeInterval(60)">1 minute</a></li>
+								<li><a href="#" onclick="changeInterval(900)">15 minutes</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="navbar-form navbar-right">
+					<div class="form-group">
+						<input id="stockSymbol" placeholder="E.g. AAPL" class="form-control"/>
+					</div>
+					<button onclick="run()" class="btn btn-success">Run</button>
+				</div>
+			</div>
+		</nav>
 
-        <div class="jumbotron">
-            <div class="container">
-                <div class="row">
-                </div>
-            </div>
-        </div>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script type='text/javascript' src='scripts/stocks.js'></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-        
-          ga('create', 'UA-69404313-1', 'auto');
-          ga('send', 'pageview');
-        
-        </script>
-    </body>
+		<div class="jumbotron">
+			<div class="container">
+				<div class="row">
+				</div>
+			</div>
+		</div>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script type='text/javascript' src='scripts/stocks.js'></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		
+			ga('create', 'UA-69404313-1', 'auto');
+			ga('send', 'pageview');
+		
+		</script>
+	</body>
 </html>
