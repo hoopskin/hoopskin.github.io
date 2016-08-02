@@ -1,0 +1,149 @@
+<!--Javascript API Key: AIzaSyC5ZcYsDuY7HfaZqZdzG9KbM6oYiQ5KwZg-->
+<!--Geocoding example: https://developers.google.com/maps/documentation/javascript/examples/geocoding-simple-->
+<!--Simple Marker Example: https://developers.google.com/maps/documentation/javascript/examples/marker-simple-->
+<!--Markers Documentation: https://developers.google.com/maps/documentation/javascript/markers#introduction-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+		<title>Happy Hour Map</title>
+		<style>
+			html, body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			#map {
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="map"></div>
+		<script>
+
+			// This example displays a marker at the center of Australia.
+			// When the user clicks the marker, an info window opens.
+			// The maximum width of the info window is set to 200 pixels.
+
+			function initMap() {
+				var geocoder = new google.maps.Geocoder();
+				var uluru = {lat: 44.974, lng: -93.272};
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 14,
+					center: uluru
+				});
+
+				var combo =
+				[["4 Bells",44.9717569,-93.285523,"FALSE","Urban-chic hot spot for creative American comfort food with Lowcountry flair & infused cocktails.","$$$","(612) 904-1163"]
+				,["Barrio",44.9741356,-93.2740777,"TRUE","Modern Latin eatery focusing on tapas & tequila cocktails in a stylish venue with an outdoor patio.","N/A","(612) 333-9953"]
+				,["Black Sheep",44.9873145,-93.2757209,"TRUE","Casual pizzeria turning out coal-fired, thin-crust specialty pies, with craft beers on tap & wine.","$$","(612) 342-2625"]
+				,["Borough",44.988794,-93.2778379,"FALSE","Refined American fare served in an industrial-chic warehouse with a craft-cocktail lounge & a patio.","$$$","(612) 354-3135"]
+				,["Brit's Pub Rooftop",44.9727991,-93.2760876,"TRUE","Classic fare & English pints in a relaxed, wood-clad setting with fireplace & rooftop lawn bowling.","N/A","(612) 332-8011"]
+				,["Butcher & the Boar",44.9747547,-93.2798101,"FALSE","This bustling American eatery with a beer garden offers a meat-focused menu, craft brews & bourbons.","$$","(612) 238-8888"]
+				,["Capital Grille",44.9769239,-93.275909,"TRUE","Outpost of the upscale steakhouse chain offers classic American fare & a clubby, refined setting.","$$$","(612) 692-9000"]
+				,["Constantine",44.9713912,-93.2726031,"FALSE","No summary found.","N/A","(612) 886-1297"]
+				,["Crave",44.9755967,-93.268873,"TRUE","Contemporary chain features an eclectic mix of classic American fare & sushi, with rooftop seating.","$$","(612) 332-1133"]
+				,["Dakota Jazz Bar",44.9736976,-93.2753807,"TRUE","Intimate cabaret setting with music every night plus full-service American fine dining & cocktails.","N/A","(612) 332-1010"]
+				,["Dan Kelly’s Pub",44.9755967,-93.268873,"TRUE","Irish pub with a rustic-hip vibe offering classic dishes alongside unexpected beers & whiskeys.","$$","(612) 333-2644"]
+				,["Devil’s Advocate",44.9735841,-93.27378,"TRUE","Hip, brick-lined outpost serving upmarket pub grub, wine, cocktails & a wide range of draft beers.","N/A","(612) 843-2260"]
+				,["Firelake Grill",44.9775014,-93.2736972,"TRUE","Upscale, contemporary restaurant & cocktail bar serving locally sourced New American fare.","N/A","(612) 216-3473"]
+				,["Fogo de Chao",44.9783116,-93.2743156,"FALSE","Upscale Brazilian chain for all-you-can-eat meat carved tableside plus an extensive salad bar.","$$$$","(612) 338-1344"]
+				,["Freehouse",44.9873642,-93.2772129,"TRUE","Buzzy brewpub serving both housemade & other beers plus a menu of gastropub fare in a slick space.","N/A","(612) 339-7011"]
+				,["Hell's Kitchen",44.9746062,-93.2725981,"TRUE","Quirky American restaurant offering an all-day menu & frequent live music in an underground space.","$$","(612) 332-4700"]
+				,["Ice House",44.956194,-93.278398,"TRUE","Late-night 2-story fixture offers American cuisine, drinks & live music in an industrial-chic space.","N/A","(612) 276-6523"]
+				,["Ichiban",44.9701393,-93.2775458,"TRUE","Pagoda-style venue offering Japanese grilled fare, tempura & sushi delivered along a conveyor belt.","$$$","(612) 339-0540"]
+				,["Keys",44.9742217,-93.2717218,"TRUE","Local chain branch serving big plates of American comfort food, with baked goods & daily happy hour.","$$","(612) 339-6399"]
+				,["Krona",44.9761791,-93.269515,"TRUE","New American dishes & a full bar served in a clubby space at the Crowne Plaza Northstar Hotel.","$$","(612) 338-2288"]
+				,["Ling & Louie’s Asian Bar and Grill",44.9742663,-93.274027,"TRUE","Casual Asian restaurant with a lively ambiance also offering some American eats, plus a full bar.","N/A","(612) 351-1234"]
+				,["Living Room",44.9744248,-93.272021,"TRUE","Clubby, modern lounge in the W Hotel featuring craft cocktails & New American small plates.","N/A","(612) 597-2413"]
+				,["Marin",44.9760573,-93.276923,"TRUE","Elegant eatery offering New American mains such as duck breast & flatbreads, plus a cocktail lounge.","$$$$","(612) 252-7000"]
+				,["Marvel Bar",44.985706,-93.2688741,"FALSE","Unmarked speakeasy behind a purple door with avant-garde cocktails, whiskeys & hip, eclectic decor.","$$","(612) 206-3929"]
+				,["Mission",44.9764048,-93.2717032,"TRUE","Upscale outpost features elevated American comfort dishes & cocktails in a sophisticated atmosphere.","N/A","(612) 339-1000"]
+				,["Pancho Villa",44.9560076,-93.2776629,"TRUE","Upbeat Mexican eatery offering hearty fare, regular drink specials & sidewalk seating.","$","(612) 871-7014"]
+				,["Parlour",44.988794,-93.2778379,"FALSE","Plush banquettes & mood lighting set the tone at this stylish spot for craft cocktails & bar bites.","$$","(612) 354-3135"]
+				,["Rare Steak and Sushi",44.9759249,-93.268833,"TRUE","Grand Hotel eatery offers grass-fed steak dinners & sustainable sushi rolls in a contemporary space.","$$","(612) 752-9595"]
+				,["Rockbottom Brewery",44.9762971,-93.2761314,"TRUE","Brewpub chain serving house beers & upscale pub food & American fare in lively environs.","$$","(612) 332-2739"]
+				,["Rosa Mexicano",44.9785155,-93.2736944,"TRUE","Modern Mexican chain eatery known for tableside guacamole, creative margaritas & chic surrounds.","$$","(612) 656-7144"]
+				,["Seven",44.9780069,-93.2753532,"TRUE","This trendy, multi-level venue offers a steakhouse & sushi bar, plus a swanky lounge & rooftop bar.","$$$","(612) 238-7770"]
+				,["Smack Shack",44.986801,-93.2763894,"TRUE","Modern eatery features a wide range of seafood, casual grub & cocktails in an industrial-chic space.","N/A","(612) 259-7288"]
+				,["The Local",44.974032,-93.2742563,"TRUE","Sprawling, mahogany-lined venue featuring traditional Irish food & drink, a patio & soccer on TV.","$$$","N/A"]
+				,["The News Room",44.9743928,-93.2746728,"TRUE","Spacious upscale eatery offers eclectic American fare & drinks amid sports TV & news-themed decor.","N/A","(612) 343-0073"]
+				,["The Prohibition",44.9744821,-93.2718112,"FALSE","Speakeasy-inspired cocktail bar offering views of the skyline from the 27th floor of the W Hotel.","$$$","(612) 215-3700"]
+				,["The Union",44.9770542,-93.275388,"TRUE","Popular modern eatery offers seafood, New American cuisine & cocktails, plus a rooftop atrium patio.","N/A","(612) 455-6690"]
+				,["Zelo",44.9750503,-93.2737749,"TRUE","Stylish destination for contemporary Italian dining with global influences, plus a lively bar scene.","$$","(612) 333-7000"]];
+
+				var pinColor = "FE7569";
+			    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+			        new google.maps.Size(21, 34),
+			        new google.maps.Point(0,0),
+			        new google.maps.Point(10, 34));
+				
+				var marker = new google.maps.Marker({
+	                position: new google.maps.LatLng(44.972947,-93.271993), 
+	                map: map,
+	                icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' //pinImage,
+	            });
+
+	            var infowindow = new google.maps.InfoWindow({
+						maxWidth: 200
+					});
+
+				google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+					return function() {
+					 infowindow.setContent("<h3>ThreeBridge HQ</h3>");
+					 infowindow.open(map,marker);
+					};
+				})(marker,content,infowindow));
+
+
+				for (var i = combo.length - 1; i >= 0; i--) {
+					var CurLatLng = {lat: combo[i][1], lng: combo[i][2]};
+
+					var marker = new google.maps.Marker({
+						position: CurLatLng,
+						map: map,
+						title: combo[i][0]
+					});
+
+					var title = combo[i][0];
+					var openBeforeFive = combo[i][3];
+					var shortDesc = combo[i][4];
+					var pricePoint = combo[i][5];
+					var phoneNumber = combo[i][6];
+					var content = "<h3>"+title+"</h3><br />"+shortDesc+
+						"<br /><b>Open Before 5pm:</b> "+openBeforeFive+
+						"<br /><b>Price Point:</b> "+pricePoint+
+						"<br /><b>Phone: </b> "+phoneNumber;
+
+					google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+						return function() {
+						 infowindow.setContent(content);
+						 infowindow.open(map,marker);
+						};
+					})(marker,content,infowindow));
+					//map.setCenter(CurLatLng);
+				}
+			}
+			
+			function geocodeAddress(geocoder, resultsMap, address) {
+				geocoder.geocode({'address': address}, function(results, status) {
+					if (status === 'OK') {
+						console.log("'"+address+"',"+results[0].geometry.location.lat()+","+results[0].geometry.location.lng());
+						resultsMap.setCenter(results[0].geometry.location);
+						var marker = new google.maps.Marker({
+							map: resultsMap,
+							position: results[0].geometry.location
+						});
+					} else {
+						alert('Geocode was not successful for the following reason: ' + status);
+					}
+				});
+			}
+		</script>
+		<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5ZcYsDuY7HfaZqZdzG9KbM6oYiQ5KwZg&callback=initMap">
+		</script>
+	</body>
+</html>
