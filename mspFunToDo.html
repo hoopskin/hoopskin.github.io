@@ -1,0 +1,244 @@
+<!--Javascript API Key: AIzaSyC5ZcYsDuY7HfaZqZdzG9KbM6oYiQ5KwZg-->
+<!--Geocoding example: https://developers.google.com/maps/documentation/javascript/examples/geocoding-simple-->
+<!--Simple Marker Example: https://developers.google.com/maps/documentation/javascript/examples/marker-simple-->
+<!--Markers Documentation: https://developers.google.com/maps/documentation/javascript/markers#introduction-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+		<title>MSP Things To Do</title>
+		<style>
+			html, body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			#map {
+				height: 100%;
+			}
+			#legend {
+				background: #fff;
+				padding: 10px;
+				margin: 10px;
+				border: 3px solid #000;
+			}
+
+			#legend img {
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="map"></div>
+		<div id="legend"><h3>Legend</h3></div>
+
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		
+			ga('create', 'UA-69404313-1', 'auto');
+			ga('send', 'pageview');
+			// This example displays a marker at the center of Australia.
+			// When the user clicks the marker, an info window opens.
+			// The maximum width of the info window is set to 200 pixels.
+
+			function initMap() {
+				var geocoder = new google.maps.Geocoder();
+				var uluru = {lat: 44.974, lng: -93.272};
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 10,
+					center: uluru
+				});
+
+				var combo =
+					[["Canterbury Park Ticket Office","1100 Canterbury Rd S, Shakopee, MN 55379, United States",44.7907142,-93.4826223,"N/A","store","(952) 445-7224","http://www.canterburypark.com/","https://maps.google.com/?cid=16128138827033069630","Sports"]
+					,["Twin Cities Premium Outlets","3965 Eagan Outlets Pkwy, Eagan, MN 55122, United States",44.81525200000001,-93.21559150000002,"N/A","department_store,jewelry_store,restaurant,food,clothing_store,store","(612) 444-8850","http://www.premiumoutlets.com/outlet/twin-cities","https://maps.google.com/?cid=14405553016190935913","Shopping"]
+					,["Q. Cumbers","7465 France Ave S, Minneapolis, MN 55435, United States",44.8671885,-93.32644879999998,"$$","restaurant,food","(952) 831-0235","http://www.qcumbers.com/","https://maps.google.com/?cid=9809704500683273472","Restaurant / Bar"]
+					,["Pizzeria Lola","5557 Xerxes Ave S, Minneapolis, MN 55410, United States",44.9018068,-93.31841829999996,"$","restaurant,food","(612) 424-8334","http://www.pizzerialola.com/","https://maps.google.com/?cid=13606428811552724077","Restaurant / Bar"]
+					,["Lake Minnetonka","Lake Minnetonka, Minnesota, USA",44.90734150000001,-93.63444659999999,"N/A","natural_feature","N/A","N/A","https://maps.google.com/?q=Lake+Minnetonka&ftid=0x87f6024fdaf22bef:0xbc4e48e96cde498","Recreation"]
+					,["St. Genevieve","5003 Bryant Ave S, Minneapolis, MN 55419, United States",44.9120983,-93.29049270000002,"$$","restaurant,food","(612) 353-4843","http://www.facebook.com/stgenevieve","https://maps.google.com/?cid=12073640555819495184","Restaurant / Bar"]
+					,["Summit Brewing Company","910 Montreal Cir, St Paul, MN 55102, United States",44.914066,-93.13960900000001,"N/A","food,store","(651) 265-7800","http://www.summitbrewing.com/","https://maps.google.com/?cid=11581722371568155188","Breweries"]
+					,["Minnehaha Falls","Minnehaha Falls, Minneapolis, MN, USA",44.9153307,-93.21100059999998,"N/A","natural_feature","N/A","N/A","https://maps.google.com/?q=Minnehaha+Falls&ftid=0x87f629064c6038ef:0xb0c586fe404dd579","Recreation"]
+					,["Sea Salt Eatery","4825 Minnehaha Ave, Minneapolis, MN 55417, United States",44.9160849,-93.21114510000001,"$$","restaurant,food","(612) 721-8990","http://www.seasalteatery.com/","https://maps.google.com/?cid=5228356428165958937","Restaurant / Bar"]
+					,["Tilia","2726 W 43rd St, Minneapolis, MN 55410, United States",44.9246638,-93.31405269999999,"$$","restaurant,food","(612) 354-2806","http://www.tiliampls.com/","https://maps.google.com/?cid=17350389197393440902","Restaurant / Bar"]
+					,["The Nook","492 Hamline Ave S, St Paul, MN 55116, United States",44.92657029999999,-93.1566689,"$$","restaurant,food","(651) 698-4347","http://www.crnook.com/","https://maps.google.com/?cid=4123008262879569819","Restaurant / Bar"]
+					,["Wabasha Street Caves","215 Wabasha St S, St Paul, MN 55107, United States",44.9359298,-93.08672939999997,"N/A","establishment","(651) 224-1191","http://www.wabashastreetcaves.com/","https://maps.google.com/?cid=8528276766257254865","Recreation"]
+					,["Hola Arepa","3501 Nicollet Ave S, Minneapolis, MN 55408, United States",44.9393396,-93.27739650000001,"$$","bar,restaurant,food","(612) 345-5583","http://holaarepa.com/","https://maps.google.com/?cid=922826542724488657","Restaurant / Bar"]
+					,["Matt's Bar and Grill","3500 Cedar Ave, Minneapolis, MN 55407, United States",44.9394238,-93.24762909999998,"$","bar,restaurant,food","(612) 722-7072","http://www.mattsbar.com/","https://maps.google.com/?cid=9006365263169826518","Restaurant / Bar"]
+					,["Vo's Vietnamese Restaurant","3450 Lyndale Ave S, Minneapolis, MN 55408, United States",44.9397706,-93.2885278,"N/A","restaurant,food","(612) 584-3630","http://www.vosvietnamese.com/","https://maps.google.com/?cid=14378397899939781180","Restaurant / Bar"]
+					,["Steel Toe Brewing","4848 W 35th St, St Louis Park, MN 55416, United States",44.9413609,-93.34121540000001,"N/A","food","(952) 955-9965","http://www.steeltoebrewing.com/","https://maps.google.com/?cid=11934803777574157887","Restaurant / Bar"]
+					,["Vicinity Coffee","3350 Lyndale Ave S, Minneapolis, MN 55408, United States",44.94145770000001,-93.28853199999998,"$","cafe,food,store","(612) 545-5972","http://vicinitycoffee.com/","https://maps.google.com/?cid=5297136170742583136","Recreation"]
+					,["Lord Fletcher's Old Lake Lodge","3746 Sunset Dr, Spring Park, MN 55384, United States",44.9417234,-93.61874749999998,"$$","restaurant,bar,food","(952) 471-8513","http://www.lordfletchers.com/","https://maps.google.com/?cid=12635350114367567394","Restaurant / Bar"]
+					,["Science Museum of Minnesota","120 W Kellogg Blvd, St Paul, MN 55102, United States",44.9424238,-93.0988175,"N/A","museum","(651) 221-9444","http://www.smm.org/","https://maps.google.com/?cid=17743329466483604764","Museums"]
+					,["The Commodore Bar & Restaurant","79 Western Ave N, St Paul, MN 55102, United States",44.94381600000001,-93.11708399999998,"N/A","restaurant,food","(651) 330-5999","http://thecommodorebar.com/","https://maps.google.com/?cid=15473069481340864554","Restaurant / Bar"]
+					,["Cossetta","211 7th St W, St Paul, MN 55102, United States",44.9438283,-93.1040408,"$$","restaurant,food","(651) 222-3476","http://cossettas.com/home/contact/","https://maps.google.com/?cid=3030088215587166360","Restaurant / Bar"]
+					,["Xcel Energy Center","199 W Kellogg Blvd, St Paul, MN 55102, United States",44.9448416,-93.10108100000002,"N/A","stadium","(651) 265-4800","http://www.xcelenergycenter.com/","https://maps.google.com/?cid=15677146403531082931","Sports"]
+					,["W. A. Frost and Company","374 Selby Ave, St Paul, MN 55102, United States",44.94639369999999,-93.1158428,"$$$","restaurant,food","(651) 224-5715","http://www.wafrost.com/","https://maps.google.com/?cid=11533782068437831570","Restaurant / Bar"]
+					,["Meritage","410 St Peter St, St Paul, MN 55102, United States",44.946419,-93.09666449999997,"$$$","bar,restaurant,food","(651) 222-5670","http://www.meritage-stp.com/","https://maps.google.com/?cid=18029545913706163545","Restaurant / Bar"]
+					,["Red Cow St. Paul","393 Selby Ave, St Paul, MN 55102, United States",44.946687,-93.11675230000003,"N/A","bar,restaurant,food","(612) 767-4411","http://www.redcowmn.com/","https://maps.google.com/?cid=14830772345583878534","Restaurant / Bar"]
+					,["The Blue Door Pub","1811 Selby Ave, St Paul, MN 55104, United States",44.9467159,-93.1767658,"N/A","bar,restaurant,food","(651) 493-1865","http://www.thebdp.com/","https://maps.google.com/?cid=10722354175004842395","Restaurant / Bar"]
+					,["The Tin Fish Restaurant","3000 E Calhoun Pkwy, Minneapolis, MN 55408, United States",44.94813389999999,-93.30641500000002,"$$","bar,restaurant,food","(612) 823-5840","http://www.thetinfishrestaurants.com/","https://maps.google.com/?cid=7614404846959451028","Restaurant / Bar"]
+					,["LynLake Brewery","2934 Lyndale Ave S, Minneapolis, MN 55408, United States",44.94891519999999,-93.28854319999999,"N/A","food","(612) 224-9682","http://www.lynlakebrewery.com/","https://maps.google.com/?cid=10738168434143103196","Breweries"]
+					,["Muddy Waters Bar & Eatery","2933 Lyndale Ave S, Minneapolis, MN 55408, United States",44.9492249,-93.28771019999999,"$$","cafe,bar,restaurant,food,store","(612) 872-2232","http://www.muddywatersmpls.com/","https://maps.google.com/?cid=16952888972669250779","Restaurant / Bar"]
+					,["Salsa a la Salsa","2841 Hennepin Ave S, Minneapolis, MN 55408, United States",44.9506722,-93.29789819999996,"N/A","restaurant,food","(612) 455-6688","http://salsauptown.com/","https://maps.google.com/?cid=6175153344327596042","Restaurant / Bar"]
+					,["Tin Whiskers Brewing Company","125 E 9th St, St Paul, MN 55101, United States",44.9508988,-93.09358199999997,"N/A","bar,liquor_store,food,store","(651) 330-4734","http://twbrewing.com/","https://maps.google.com/?cid=3539444216775449915","Breweries"]
+					,["Dark Horse Bar & Eatery","250 E 7th St, St Paul, MN 55101, United States",44.9509519,-93.08815140000002,"N/A","restaurant,bar,food","(651) 313-7960","http://www.darkhorsebarandeatery.com/","https://maps.google.com/?cid=11954991165298696168","Restaurant / Bar"]
+					,["CHS Field","360 N Broadway St, St Paul, MN 55101, United States",44.9511532,-93.0838756,"N/A","stadium","(651) 644-3517","http://chs-field.com/","https://maps.google.com/?cid=16265578348607481030","Sports"]
+					,["Vertical Endeavors - Minneapolis","2540 Nicollet Ave S, Minneapolis, MN 55404, United States",44.95618320000001,-93.27869520000002,"N/A","store","(612) 436-1470","http://verticalendeavors.com/minneapolis/","https://maps.google.com/?cid=7118574286256076143","Recreation"]
+					,["Nico's Taco and Tequila Bar","2516 Hennepin Ave, Minneapolis, MN 55405, United States",44.9567748,-93.29624079999996,"N/A","restaurant,food","(612) 345-7688","http://www.nicostacobar.com/","https://maps.google.com/?cid=11935903869568515616","Restaurant / Bar"]
+					,["United Noodles","2015 E 24th St, Minneapolis, MN 55404, United States",44.9578908,-93.2422411,"$$","grocery_or_supermarket,restaurant,food,store","(612) 721-6677","http://www.unitednoodles.com/","https://maps.google.com/?cid=5850828842130345591","Restaurant / Bar"]
+					,["Minneapolis Institute of Art","2400 3rd Ave S, Minneapolis, MN 55404, United States",44.9584828,-93.2740837,"N/A","museum","(612) 870-3000","http://www.artsmia.org/","https://maps.google.com/?cid=14207980514366553254","Museums"]
+					,["Kenwood","Kenwood, Minneapolis, MN, USA",44.9591051,-93.3120017,"N/A","neighborhood,political","N/A","N/A","https://maps.google.com/?q=Kenwood,+Minneapolis,+MN,+USA&ftid=0x52b3333aa023ce15:0xa6adf35bf932e611","Restaurant / Bar"]
+					,["Maria's Cafe","1113 E Franklin Ave, Minneapolis, MN 55404, United States",44.9623433,-93.25772919999997,"$$","restaurant,cafe,food","(612) 870-9842","http://www.mariascafe.com/","https://maps.google.com/?cid=1098526992856617334","Restaurant / Bar"]
+					,["Minnesota Transportation Museum","193 Pennsylvania Ave E, St Paul, MN 55130, United States",44.9625109,-93.09553249999999,"N/A","museum","(651) 228-0263","http://trainride.org/","https://maps.google.com/?cid=4566846377428184193","Museums"]
+					,["Burch Steak and Pizza Bar","1933 Colfax Ave S, Minneapolis, MN 55403, United States",44.96291539999999,-93.29161750000003,"$$$","restaurant,food","(612) 843-1515","http://www.burchrestaurant.com/","https://maps.google.com/?cid=18290136440622936975","Restaurant / Bar"]
+					,["Yard House","1665 Park Pl Blvd, St Louis Park, MN 55416, United States",44.96648570000001,-93.34871909999998,"N/A","restaurant,food","(952) 417-0490","http://www.yardhouse.com/locations/mn/st-louis-park/st-louis-park/8354","https://maps.google.com/?cid=1165928633408589960","Restaurant / Bar"]
+					,["Cooper Pub and Restaurant","1607 Park Pl Blvd, St Louis Park, MN 55416, United States",44.9674574,-93.3490162,"$$","bar,restaurant,food","(952) 698-2000","http://www.cooperpub.com/","https://maps.google.com/?cid=5563857720606391658","Restaurant / Bar"]
+					,["Walker Art Center","1750 Hennepin Ave, Minneapolis, MN 55403, United States",44.968132,-93.28873699999997,"N/A","establishment","(612) 375-7600","http://www.walkerart.org/","https://maps.google.com/?cid=13983112962245836178","Museums"]
+					,["Loring Pond","Loring Pond, Minneapolis, MN 55403, USA",44.9689367,-93.28440369999998,"N/A","natural_feature","N/A","N/A","https://maps.google.com/?q=Loring+Pond&ftid=0x52b332c19bb24e17:0x14864a22545fdd83","Recreation"]
+					,["Minneapolis Sculpture Garden","725 Vineland Pl, Minneapolis, MN 55403, United States",44.969582,-93.28905299999997,"N/A","park","N/A","https://www.walkerart.org/garden/","https://maps.google.com/?cid=6037934690900938095","Museums"]
+					,["Brit's Pub","1110 Nicollet Mall, Minneapolis, MN 55403, United States",44.97278600000001,-93.276092,"$","night_club,bar,restaurant,food","(612) 332-8011","http://www.britspub.com/","https://maps.google.com/?cid=13521511993617892548","Restaurant / Bar"]
+					,["Sisyphus Brewing","712 Ontario Ave W, Minneapolis, MN 55403, United States",44.973223,-93.288925,"N/A","bar,food","(612) 444-8674","http://www.sisyphusbrewing.com/","https://maps.google.com/?cid=2129736033253126297","Restaurant / Bar"]
+					,["Surly Brewing Co.","520 Malcolm Ave SE, Minneapolis, MN 55414, United States",44.9732558,-93.20981289999997,"N/A","bar,restaurant,food","(763) 999-4040","http://surlybrewing.com/","https://maps.google.com/?cid=13152920065117129032","Breweries"]
+					,["U.S. Bank Stadium","401 Chicago Ave, Minneapolis, MN 55415, United States",44.97369199999999,-93.25767300000001,"N/A","stadium","(612) 777-8700","http://www.usbankstadium.com/","https://maps.google.com/?cid=16516279991924342739","Sports"]
+					,["Orpheum Theatre","910 Hennepin Ave, Minneapolis, MN 55403, United States",44.9763025,-93.27746289999999,"N/A","establishment","(612) 339-7007","http://www.hennepintheatretrust.org/our-theatres/orpheum-theatre","https://maps.google.com/?cid=3974691316620455144","Theatre"]
+					,["Izzy's Ice Cream","1100 S 2nd St, Minneapolis, MN 55415, United States",44.97653889999999,-93.2519155,"$","food,store","(612) 206-3356","http://izzysicecream.com/locations/minneapolis/","https://maps.google.com/?cid=248941284384126666","Restaurant / Bar"]
+					,["State Theatre","805 Hennepin Ave, Minneapolis, MN 55402, United States",44.9766994,-93.27575780000001,"N/A","establishment","(612) 339-7007","http://www.hennepintheatretrust.org/","https://maps.google.com/?cid=5551435794133005841","Theatre"]
+					,["Seven Steakhouse Sushi Ultralounge Skybar","700 Hennepin Ave, Minneapolis, MN 55403, United States",44.977929,-93.2750949,"$$$","night_club,bar,restaurant,food","(612) 238-7770","http://7mpls.net/","https://maps.google.com/?cid=4713091700568300183","Restaurant / Bar"]
+					,["Guthrie Theater","818 S 2nd St, Minneapolis, MN 55415, United States",44.978066,-93.25533559999997,"N/A","establishment","(612) 377-2224","http://www.guthrietheater.org/","https://maps.google.com/?cid=14415037625030132595","Theatre"]
+					,["Mill City Farmers Market","704 S 2nd St, Minneapolis, MN 55415, United States",44.9786655,-93.25698399999999,"N/A","food","(612) 341-7580","http://www.millcityfarmersmarket.org/","https://maps.google.com/?cid=2732395889661356912","Farmer's Market"]
+					,["Mill City Museum","704 S 2nd St, Minneapolis, MN 55401, United States",44.97881090000001,-93.2571825,"N/A","museum","(612) 341-7582","http://www.millcitymuseum.org/","https://maps.google.com/?cid=11052270807054118706","Museums"]
+					,["Target Center","600 First Avenue North, Minneapolis, MN 55403, United States",44.9794545,-93.27618989999996,"N/A","stadium","(612) 673-1300","http://www.targetcenter.com/","https://maps.google.com/?cid=15590685453279924204","Sports"]
+					,["The Depot Skating Rink","225 South 3rd Avenue, Minneapolis, MN 55401, United States",44.9798085,-93.2624323,"N/A","establishment","(612) 339-2253","http://www.thedepotminneapolis.com/icerink/","https://maps.google.com/?cid=35000321687514587","Recreation"]
+					,["Stone Arch Bridge","100 Portland Ave, Minneapolis, MN 55401, United States",44.9805304,-93.2547533,"N/A","establishment","(612) 230-6400","https://www.minneapolisparks.org/parks__destinations/historical_sites/stone_arch_bridge/","https://maps.google.com/?cid=16373684327107019915","Recreation"]
+					,["Minneapolis Farmers Market","312 East Lyndale Ave N, Minneapolis, MN 55405, United States",44.981269,-93.28607090000003,"N/A","grocery_or_supermarket,food,store","(612) 333-1718","http://www.mplsfarmersmarket.com/","https://maps.google.com/?cid=18081168166284983437","Farmer's Market"]
+					,["Target Field","1 Twins Way, Minneapolis, MN 55403, United States",44.98165280000001,-93.2777764,"N/A","stadium","(612) 659-3400","http://minnesota.twins.mlb.com/index.jsp?c_id=min","https://maps.google.com/?cid=16492843063147742549","Sports"]
+					,["Como Park Zoo & Conservatory","1225 Estabrook Dr, St Paul, MN 55103, United States",44.9825856,-93.1533799,"N/A","zoo,park","(651) 487-8201","http://www.comozooconservatory.org/","https://maps.google.com/?cid=5020327751164321626","Museums"]
+					,["Haute Dish","119 N Washington Ave, Minneapolis, MN 55401, United States",44.98313659999999,-93.27128010000001,"$$","bar,restaurant,food","(612) 338-8484","http://www.haute-dish.com/","https://maps.google.com/?cid=7428457736273101338","Restaurant / Bar"]
+					,["Aster Cafe","125 Mainstreet Southeast, Minneapolis, MN 55414, United States",44.98454659999999,-93.255041,"$$","cafe,restaurant,food","(612) 379-3138","http://www.astercafe.com/","https://maps.google.com/?cid=17944559192970088599","Restaurant / Bar"]
+					,["Fulton Brewery","414 N 6th Ave, Minneapolis, MN 55401, United States",44.9849697,-93.27918950000003,"$$","bar,food","(612) 333-3208","http://www.fultonbeer.com/","https://maps.google.com/?cid=8754470474314533077","Breweries"]
+					,["Spoon and Stable","211 N 1st St, Minneapolis, MN 55401, United States",44.985561,-93.26947100000001,"$$$","restaurant,food","(612) 224-9850","http://www.spoonandstable.com/","https://maps.google.com/?cid=14589547885912538400","Restaurant / Bar"]
+					,["The Bachelor Farmer Cafe","200 N 1st St, Minneapolis, MN 55401, United States",44.985585,-93.269048,"$","cafe,food","(612) 206-3923","http://www.thebachelorfarmer.com/cafe","https://maps.google.com/?cid=8839236697694375982","Restaurant / Bar"]
+					,["The Freehouse","701 N Washington Ave #101, Minneapolis, MN 55401, United States",44.9875643,-93.2771578,"N/A","bar,restaurant,food","(612) 339-7011","http://www.freehousempls.com/","https://maps.google.com/?cid=10326792902133642917","Restaurant / Bar"]
+					,["Ginger Hop Restaurant","201 E Hennepin Ave, Minneapolis, MN 55414, United States",44.9877315,-93.25765860000001,"$$","bar,restaurant,food","(612) 746-0304","http://www.gingerhop.com/","https://maps.google.com/?cid=12120063896990371491","Restaurant / Bar"]
+					,["Parlour","730 N Washington Ave, Minneapolis, MN 55401, United States",44.9887883,-93.27781670000002,"$$","bar","(612) 354-3135","http://www.boroughmpls.com/#!parlour/crrl","https://maps.google.com/?cid=9223232862606661310","Restaurant / Bar"]
+					,["Bar La Grassa","800 N Washington Ave, Minneapolis, MN 55401, United States",44.9894392,-93.27866460000001,"$$$","bar,restaurant,food","(612) 333-3837","http://www.barlagrassa.com/","https://maps.google.com/?cid=9202019216550583939","Restaurant / Bar"]
+					,["Brasa Premium Rotisserie","600 E Hennepin Ave, Minneapolis, MN 55414, United States",44.9895171,-93.25124249999999,"$$","restaurant,food","(612) 379-3030","http://brasa.us/","https://maps.google.com/?cid=7460101193240565446","Restaurant / Bar"]
+					,["Acme Comedy Co","708 N 1st St, Minneapolis, MN 55401, United States",44.99001500000001,-93.27498700000001,"N/A","bar","(612) 338-6393","http://acmecomedycompany.com/","https://maps.google.com/?cid=11660762815013704370","Theatre"]
+					,["Ordway","Ordway, Minneapolis, MN 55422, USA",45.0003568,-93.34020129999999,"N/A","route","N/A","N/A","https://maps.google.com/?q=Ordway,+Golden+Valley,+MN+55422,+USA&ftid=0x52b33388d3c46a25:0x42b5d2eea0e7563c","Theatre"]
+					,["The Anchor Fish & Chips","302 13th Ave NE, Minneapolis, MN 55413, United States",45.0007216,-93.2643554,"$$","restaurant,food","(612) 676-1300","http://www.theanchorfishandchips.com/","https://maps.google.com/?cid=18201289260982212923","Restaurant / Bar"]
+					,["Bauhaus Brew Labs","1315 Tyler St NE, Minneapolis, MN 55413, United States",45.00079030000001,-93.24463600000001,"N/A","food","(612) 276-6911","http://bauhausbrewlabs.com/","https://maps.google.com/?cid=8639321302015586491","Breweries"]
+					,["Dangerous Man Brewing Company","1300 NE 2nd St, Minneapolis, MN 55413, United States",45.00109980000001,-93.26638049999997,"N/A","food","(612) 236-4087","http://dangerousmanbrewing.com/","https://maps.google.com/?cid=765672678813508697","Breweries"]
+					,["Indeed Brewing Company and Taproom","711 NE 15th Ave, Minneapolis, MN 55413, United States",45.00336979999999,-93.25153130000001,"$$","bar,food","(612) 843-5090","http://www.indeedbrewing.com/","https://maps.google.com/?cid=15074776274980221893","Breweries"]
+					,["Sky Zone Trampoline Park Minneapolis","13310 Industrial Park Blvd #160, Plymouth, MN 55441, United States",45.0033945,-93.44899909999998,"N/A","establishment","(763) 333-2045","http://www.skyzone.com/Minneapolis","https://maps.google.com/?cid=11329657578753293617","Recreation"]
+					,["Sociable Cider Werks","1500 Fillmore St NE, Minneapolis, MN 55413, United States",45.0034194,-93.24232180000001,"N/A","food","(612) 758-0105","http://sociablecider.com/","https://maps.google.com/?cid=277231203081257241","Breweries"]
+					,["Psycho Suzi's Motor Lounge","1900 Marshall St NE, Minneapolis, MN 55418, United States",45.007535,-93.27242369999999,"$$","restaurant,bar,food","(612) 788-9069","http://www.psychosuzis.com/","https://maps.google.com/?cid=5409698715834818152","Restaurant / Bar"]
+					,["Betty Danger's Country Club","2501 Marshall St NE, Minneapolis, MN 55418, United States",45.013422,-93.27124800000001,"$$","restaurant,food","(612) 315-4997","http://bettydangers.com/","https://maps.google.com/?cid=5833948775728055592","Restaurant / Bar"]
+					,["Chimborazo","2851 Central Ave NE, Minneapolis, MN 55418, United States",45.0202629,-93.24695380000003,"$$","restaurant,food","(612) 788-1328","http://www.chimborazorestaurant.com/","https://maps.google.com/?cid=2255308673344109832","Restaurant / Bar"]
+					,["Travail Kitchen and Amusements","4124 W Broadway Ave, Robbinsdale, MN 55422, United States",45.0303815,-93.33790269999997,"$$","restaurant,food","(763) 535-1131","http://travailkitchen.com/","https://maps.google.com/?cid=12548474157174231429","Restaurant / Bar"]
+					,["Gateway State Trail","Gateway State Trail, Minnesota, USA",45.0341478,-92.94843579999997,"N/A","route","N/A","N/A","https://maps.google.com/?q=Gateway+State+Trail,+Minnesota,+USA&ftid=0x52b2d45e850693dd:0x823979200965fe05","Recreation"]
+					,["National Sports Center","1700 105th Ave NE, Blaine, MN 55449, United States",45.15847540000001,-93.22575330000001,"N/A","establishment","(763) 785-5600","http://www.nscsports.org/","https://maps.google.com/?cid=11587822494720880797","Sports"]];
+
+				var colorDict = {"Breweries": "ffff00", "Farmer's Market": "00FF00", "Museums": "FF69B4", "Recreation": "0000FF", "Restaurant / Bar": "ff0000", "Shopping": "FFFFFF", "Sports": "FFA500", "Theatre": "800080"}
+
+				var infowindow = new google.maps.InfoWindow({
+						maxWidth: 200
+					});
+
+
+				for (var i = combo.length - 1; i >= 0; i--) {
+					//0 = Title
+					//1 = Address
+					//2 = Lat
+					//3 = Lng
+					//4 = Price
+					//5 = Tags
+					//6 = Phone
+					//7 = Website
+					//8 = Google Maps
+					var CurLatLng = {lat: combo[i][2], lng: combo[i][3]};
+
+					
+					var title = combo[i][0];
+					var address = combo[i][1];
+					var pricePoint = combo[i][4];
+					var tags = combo[i][5];
+					var phoneNumber = combo[i][6];
+					var website = combo[i][7];
+					var gMapsLink = combo[i][8];
+					var category = combo[i][9];
+
+					var pinColor = colorDict[category];
+					var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+						new google.maps.Size(21, 34),
+						new google.maps.Point(0,0),
+						new google.maps.Point(10, 34));
+
+					var marker = new google.maps.Marker({
+						position: CurLatLng,
+						map: map,
+						icon: pinImage,
+						title: title
+					});
+
+
+
+					if (website.startsWith("http")) {
+						website = "<a href=\""+website+"\">Website</a>";
+					}
+					if (gMapsLink.startsWith("http")) {
+						gMapsLink = "<a href=\""+gMapsLink+"\">Link</a>";
+					}
+
+					var content = "<h3>"+title+"</h3>"+
+						"<br /><b>Address: </b>"+address+
+						"<br /><b>Price Point: </b>"+pricePoint+
+						"<br /><b>Tags: </b>"+tags+
+						"<br /><b>Phone Number: </b>"+phoneNumber+
+						"<br /><b>Website: </b>"+website+
+						"<br /><b>Google Maps Link: </b>"+gMapsLink;
+
+					google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+						return function() {
+						 infowindow.setContent(content);
+						 infowindow.open(map,marker);
+						};
+					})(marker,content,infowindow));
+
+				}
+				var legend = document.getElementById('legend');
+				for (var i = 0; i < Object.keys(colorDict).length; i++) {
+					var div = document.createElement('div');
+					//div.setAttribute('style', 'color:#'+colorDict[Object.keys(colorDict)[i]]);
+					//div.innerHTML = Object.keys(colorDict)[i];
+					var img = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + colorDict[Object.keys(colorDict)[i]];
+					div.innerHTML = '<img src="' + img + '"> ' + Object.keys(colorDict)[i];
+					//div.innerHTML = "<div style:'border:1px solid #000, color:#"+colorDict[Object.keys(colorDict)[i]]+"'>Hi!</div>"+Object.keys(colorDict)[i];
+					legend.appendChild(div);
+				}
+				map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('legend'));
+			}
+			
+			function geocodeAddress(geocoder, resultsMap, address) {
+				geocoder.geocode({'address': address}, function(results, status) {
+					if (status === 'OK') {
+						console.log("'"+address+"',"+results[0].geometry.location.lat()+","+results[0].geometry.location.lng());
+						resultsMap.setCenter(results[0].geometry.location);
+						var marker = new google.maps.Marker({
+							map: resultsMap,
+							position: results[0].geometry.location
+						});
+					} else {
+						alert('Geocode was not successful for the following reason: ' + status);
+					}
+				});
+			}
+		</script>
+		<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5ZcYsDuY7HfaZqZdzG9KbM6oYiQ5KwZg&callback=initMap">
+		</script>
+	</body>
+</html>
