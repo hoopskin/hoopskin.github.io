@@ -1,0 +1,226 @@
+<!--Javascript API Key: AIzaSyC5ZcYsDuY7HfaZqZdzG9KbM6oYiQ5KwZg-->
+<!--Geocoding example: https://developers.google.com/maps/documentation/javascript/examples/geocoding-simple-->
+<!--Simple Marker Example: https://developers.google.com/maps/documentation/javascript/examples/marker-simple-->
+<!--Markers Documentation: https://developers.google.com/maps/documentation/javascript/markers#introduction-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+		<title>STL Things To Do</title>
+		<style>
+			html, body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			#map {
+				height: 100%;
+			}
+			#legend {
+				background: #fff;
+				padding: 10px;
+				margin: 10px;
+				border: 3px solid #000;
+			}
+
+			#legend img {
+				vertical-align: middle;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="map"></div>
+		<div id="legend"><h3>Legend</h3></div>
+
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		
+			ga('create', 'UA-69404313-1', 'auto');
+			ga('send', 'pageview');
+			// This example displays a marker at the center of Australia.
+			// When the user clicks the marker, an info window opens.
+			// The maximum width of the info window is set to 200 pixels.
+
+			function initMap() {
+				var geocoder = new google.maps.Geocoder();
+				var uluru = {lat: 38.430, lng: -90.5};
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 9,
+					center: uluru
+				});
+
+				var combo =
+					[["Imo's Pizza","1 S Broadway, St. Louis, MO 63102, United States",38.6252648,-90.19027019999999,"N/A","restaurant,food,point_of_interest,establishment","(314) 641-8899","http://imospizza.com/","https://maps.google.com/?cid=16014610498462124279","Restaurant / Bar"]
+					,["Pi Pizzeria","400 N Euclid Ave, St. Louis, MO 63108, United States",38.6486332,-90.26069989999996,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 367-4300","http://www.restaurantpi.com/","https://maps.google.com/?cid=6065390441568956625","Restaurant / Bar"]
+					,["Ferguson Brewing Company","418 S Florissant Rd, Ferguson, MO 63135, United States",38.7382125,-90.30229270000001,"$","bar,restaurant,food,point_of_interest,establishment","(314) 254-7359","http://www.fergusonbrewing.com/","https://maps.google.com/?cid=762031120333876394","Breweries"]
+					,["The Schlafly Tap Room","2100 Locust St, St. Louis, MO 63103, United States",38.6330458,-90.20975720000001,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 241-2337","http://schlafly.com/tap-room/","https://maps.google.com/?cid=11217754727019783593","Breweries"]
+					,["Urban Chestnut Brewing Co","3229 Washington Avenue, St. Louis, MO 63103, United States",38.6379581,-90.22585400000003,"$","bar,restaurant,food,point_of_interest,establishment","(314) 222-0143","http://www.urbanchestnut.com/","https://maps.google.com/?cid=8996130653625337570","Breweries"]
+					,["Fritz's Frozen Custard","1055 St Catherine St, Florissant, MO 63031, United States",38.7902244,-90.32247760000001,"$","food,store,point_of_interest,establishment","(314) 839-4100","http://www.fritzsfrozencustard.com/","https://maps.google.com/?cid=10687966917677470001","Restaurant / Bar"]
+					,["Half & Half","8133 Maryland Ave, St. Louis, MO 63105, United States",38.652549,-90.34282000000002,"$$","cafe,bar,restaurant,food,store,point_of_interest,establishment","(314) 725-0719","http://www.halfandhalfstl.com/","https://maps.google.com/?cid=15740767266475296472","Restaurant / Bar"]
+					,["Anheuser-Busch","1200 Lynch St, St. Louis, MO 63118, United States",38.5976126,-90.21269910000001,"N/A","food,point_of_interest,establishment","(314) 577-2626","http://budweisertours.com/","https://maps.google.com/?cid=7524286315866799979","Breweries"]
+					,["Bailey's Chocolate Bar","1915 Park Ave, St. Louis, MO 63104, United States",38.6174438,-90.212809,"N/A","bar,point_of_interest,establishment","(314) 241-8100","http://baileyschocolatebar.com/","https://maps.google.com/?cid=14940422737418781528","Restaurant / Bar"]
+					,["Boogaloo","7344 Manchester Rd, St. Louis, MO 63143, United States",38.6127229,-90.31867849999998,"$$$","bar,restaurant,food,point_of_interest,establishment","(314) 645-4803","http://boogaloostlouis.com/","https://maps.google.com/?cid=5467380392803612627","Restaurant / Bar"]
+					,["Busch Stadium","700 Clark Ave, St. Louis, MO 63102, United States",38.6226188,-90.19282090000002,"$$$","stadium,point_of_interest,establishment","(314) 345-9600","http://stlouis.cardinals.mlb.com/stl/ballpark/index.jsp","https://maps.google.com/?cid=11923670167811301159","Sports"]
+					,["Copia Wine bar","1122 Washington Ave, St. Louis, MO 63101, United States",38.631274,-90.19593499999996,"$$$","bar,food,point_of_interest,establishment","(314) 241-9463","http://copiastl.com/","https://maps.google.com/?cid=16605993603672160850","Restaurant / Bar"]
+					,["Cork Wine Bar","423 S Florissant Rd, Ferguson, MO 63135, United States",38.7384237,-90.30284619999998,"$$","art_gallery,bar,restaurant,food,point_of_interest,establishment","(314) 521-9463","http://corkferguson.com/","https://maps.google.com/?cid=680886930156790853","Museums"]
+					,["Eleven Eleven Mississippi","1111 Mississippi Ave, St. Louis, MO 63104, United States",38.61960659999999,-90.21302830000002,"$$","restaurant,food,point_of_interest,establishment","(314) 241-9999","http://www.1111-m.com/","https://maps.google.com/?cid=2117659420327075692","Restaurant / Bar"]
+					,["Mango Restaurant","1001 Washington Ave, St. Louis, MO 63101, United States",38.63141099999999,-90.19398409999997,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 621-9993","http://www.mangoperu.com/","https://maps.google.com/?cid=1814951022424808918","Restaurant / Bar"]
+					,["Modesto Tapas Bar & Restaurant","5257 Shaw Ave, St. Louis, MO 63110, United States",38.6184272,-90.27418829999999,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 772-8272","http://www.modestotapas.com/","https://maps.google.com/?cid=9184650899762822661","Restaurant / Bar"]
+					,["Bissell Mansion Restaurant & Dinner Theatre","4426 Randall Pl, St. Louis, MO 63107, United States",38.670385,-90.20340499999998,"$$","restaurant,food,point_of_interest,establishment","(314) 533-9830","http://www.bissellmansiontheatre.com/","https://maps.google.com/?cid=5275278857203880851","Restaurant / Bar"]
+					,["Rosalita's Cantina","1235 Washington Ave, St. Louis, MO 63103, United States",38.63217,-90.19806840000001,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 621-2700","http://rosalitascantina.com/","https://maps.google.com/?cid=5756429766004456838","Restaurant / Bar"]
+					,["Historic Soulard Farmers' Market","730 Carol Rd, St. Louis, MO 63104, United States",38.6107371,-90.20105330000001,"N/A","grocery_or_supermarket,food,store,point_of_interest,establishment","(314) 622-4180","http://www.soulardmarket.com/","https://maps.google.com/?cid=6908738308197433128","Farmer's Market"]
+					,["Sub Zero Vodka Bar","308 N Euclid Ave, St. Louis, MO 63108, United States",38.64508670000001,-90.26129500000002,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 367-1200","http://www.subzerovodkabar.com/","https://maps.google.com/?cid=4355251892624623167","Restaurant / Bar"]
+					,["Taste","4584 Laclede Ave, St. Louis, MO 63108, United States",38.6400853,-90.26188439999999,"$$","restaurant,bar,food,point_of_interest,establishment","(314) 361-1200","http://tastebarstl.com/","https://maps.google.com/?cid=191269260969236912","Restaurant / Bar"]
+					,["The Gateway Arch","100 Washington Ave, St. Louis, MO 63102, United States",38.624691,-90.18477630000001,"N/A","park,point_of_interest,establishment","(877) 982-1410","http://www.gatewayarch.com/","https://maps.google.com/?cid=8785723020277098548","Recreation"]
+					,["City Museum","750 N 16th St, St. Louis, MO 63103, United States",38.6336257,-90.2004139,"N/A","museum,point_of_interest,establishment","(314) 231-2489","http://www.citymuseum.org/","https://maps.google.com/?cid=14518554203779680772","Museums"]
+					,["Drunken Fish","601 Clark Ave #104, St. Louis, MO 63102, United States",38.62409219999999,-90.19175580000001,"N/A","night_club,bar,restaurant,food,point_of_interest,establishment","(314) 899-0500","http://www.drunkenfish.com/","https://maps.google.com/?cid=8581353641260554478","Restaurant / Bar"]
+					,["Lemp Mansion","3322 Demenil Pl, St. Louis, MO 63118, United States",38.5931772,-90.21587219999998,"$$","restaurant,food,point_of_interest,establishment","(314) 664-8024","http://www.lempmansion.com/","https://maps.google.com/?cid=13783092164870094194","Restaurant / Bar"]
+					,["Vin De Set","2017 Chouteau Ave, St. Louis, MO 63103, United States",38.6213489,-90.21300480000002,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 241-8989","http://vindeset.com/","https://maps.google.com/?cid=15791098735213647815","Restaurant / Bar"]
+					,["Forest Park","5595 Grand Dr, St. Louis, MO 63112, United States",38.6382974,-90.28423929999997,"N/A","park,museum,point_of_interest,establishment","(314) 367-7275","http://www.forestparkforever.org/","https://maps.google.com/?cid=11324236402267428010","Museums"]
+					,["Missouri History Museum","5700 Lindell Blvd, St. Louis, MO 63112, United States",38.6450792,-90.28576120000002,"N/A","museum,point_of_interest,establishment","(314) 746-4599","http://www.mohistory.org/","https://maps.google.com/?cid=17023399373578678886","Museums"]
+					,["Municipal Theatre Association","1 Theatre Dr, St. Louis, MO 63112, United States",38.6407896,-90.28068840000003,"N/A","point_of_interest,establishment","(314) 361-1900","http://www.muny.org/","https://maps.google.com/?cid=9454894950077566480","Theater"]
+					,["Saint Louis Art Museum","1 Fine Arts Dr, St. Louis, MO 63110, United States",38.6393062,-90.29449110000002,"N/A","art_gallery,museum,point_of_interest,establishment","(314) 721-0072","http://www.slam.org/","https://maps.google.com/?cid=10927054154687616570","Museums"]
+					,["St Louis Science Center","5050 Oakland Ave, St. Louis, MO 63110, United States",38.6286433,-90.2705919,"N/A","museum,point_of_interest,establishment","(314) 289-4400","http://www.slsc.org/","https://maps.google.com/?cid=6718120977090651764","Museums"]
+					,["Saint Louis Zoo","1 Government Dr, St. Louis, MO 63110, United States",38.6366662,-90.29242099999999,"N/A","zoo,point_of_interest,establishment","(314) 781-0900","http://www.stlzoo.org/","https://maps.google.com/?cid=6950470402852841520","Museums"]
+					,["Niche","7734 Forsyth Blvd, Clayton, MO 63105, United States",38.6496085,-90.33578030000001,"$$$","bar,restaurant,food,point_of_interest,establishment","(314) 773-7755","http://nichestlouis.com/","https://maps.google.com/?cid=8058010549656615403","Restaurant / Bar"]
+					,["ELAIA","1634 Tower Grove Ave, St. Louis, MO 63110, United States",38.6193663,-90.25538540000002,"$$$","bar,restaurant,food,point_of_interest,establishment","(314) 932-1088","http://elaiastl.com/","https://maps.google.com/?cid=15356415008069760146","Restaurant / Bar"]
+					,["Sidney Street Cafe","2000 Sidney St, St. Louis, MO 63104, United States",38.60349499999999,-90.21778330000001,"$$$","restaurant,food,point_of_interest,establishment","(314) 771-5777","http://sidneystreetcafe.com/","https://maps.google.com/?cid=6290090594931792248","Restaurant / Bar"]
+					,["Farmhaus","3257 Ivanhoe Ave, St. Louis, MO 63139, United States",38.60413459999999,-90.30413980000003,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 647-3800","http://farmhausrestaurant.com/","https://maps.google.com/?cid=13393002436357135960","Restaurant / Bar"]
+					,["Stone Soup Cottage","5809 State Highway N, Cottleville, MO 63304, United States",38.7563022,-90.66352999999998,"$$$","restaurant,bar,food,point_of_interest,establishment","(636) 244-2233","http://www.stonesoupcottage.com/","https://maps.google.com/?cid=8437128462905577883","Restaurant / Bar"]
+					,["Publico","6679 Delmar Blvd, University City, MO 63130, United States",38.6564304,-90.30789429999999,"$$","restaurant,food,point_of_interest,establishment","(314) 833-5780","http://www.publicostl.com/","https://maps.google.com/?cid=7923999213141710767","Restaurant / Bar"]
+					,["Cleveland-Heath","106 N Main St, Edwardsville, IL 62025, United States",38.8116017,-89.95572679999998,"N/A","bar,restaurant,food,point_of_interest,establishment","(618) 307-4830","http://www.clevelandheath.com/","https://maps.google.com/?cid=6954567933388260074","Restaurant / Bar"]
+					,["Tony's","410 Market St, St. Louis, MO 63102, United States",38.6250286,-90.18949270000002,"$$$","bar,restaurant,food,point_of_interest,establishment","(314) 231-7007","http://tonysstlouis.com/","https://maps.google.com/?cid=8392564698890199446","Restaurant / Bar"]
+					,["Pastaria","7734 Forsyth Blvd, Clayton, MO 63105, United States",38.64991439999999,-90.33570889999999,"$$$","restaurant,food,point_of_interest,establishment","(314) 862-6603","http://www.pastariastl.com/","https://maps.google.com/?cid=2464955758371126747","Restaurant / Bar"]
+					,["Randolfi's","6665 Delmar Blvd, University City, MO 63130, United States",38.6564628,-90.30758639999999,"N/A","bar,restaurant,food,point_of_interest,establishment","(314) 899-9221","http://www.thegoodpiestl.com/","https://maps.google.com/?cid=5616459978418079371","Restaurant / Bar"]
+					,["Veritas Gateway To Food & Wine","15860 Fountain Plaza Dr, Ellisville, MO 63017, United States",38.6064038,-90.5833227,"N/A","restaurant,bar,liquor_store,food,furniture_store,home_goods_store,store,point_of_interest,establishment","(636) 227-6800","http://www.veritasgateway.com/","https://maps.google.com/?cid=15706328037552039263","Restaurant / Bar"]
+					,["Five Bistro","5100 Daggett Ave, St. Louis, MO 63110, United States",38.6164066,-90.2709724,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 773-5553","http://www.fivebistro.com/","https://maps.google.com/?cid=12689241899845414663","Restaurant / Bar"]
+					,["Juniper","360 N Boyle Ave, St. Louis, MO 63108, United States",38.6427242,-90.2497664,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 329-7696","http://junipereats.com/","https://maps.google.com/?cid=13180844815112037216","Restaurant / Bar"]
+					,["Guerrilla Street Food","3559 Arsenal St, St. Louis, MO 63118, United States",38.6029174,-90.24198209999997,"N/A","restaurant,food,point_of_interest,establishment","(314) 529-1328","http://guerrillastreetfood.com/","https://maps.google.com/?cid=3677559461242126646","Restaurant / Bar"]
+					,["Brasserie by Niche","4580 Laclede Ave, St. Louis, MO 63108, United States",38.6400551,-90.26183750000001,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 454-0600","http://www.brasseriebyniche.com/","https://maps.google.com/?cid=5533511843036295185","Restaurant / Bar"]
+					,["Annie Gunn's Restaurant","16806 Chesterfield Airport Rd, Chesterfield, MO 63005, United States",38.6679833,-90.58001159999998,"$$$","restaurant,bar,food,point_of_interest,establishment","(636) 532-7684","http://www.anniegunns.com/","https://maps.google.com/?cid=8328893910282381033","Restaurant / Bar"]
+					,["Acero","7266 Manchester Rd, Maplewood, MO 63143, United States",38.6133933,-90.31585139999999,"$$","bar,restaurant,food,point_of_interest,establishment","(314) 644-1790","http://www.fialafood.com/acero/","https://maps.google.com/?cid=9116939363631654398","Restaurant / Bar"]
+					,["Pappy's Smokehouse","3106 Olive St, St. Louis, MO 63103, United States",38.63499660000001,-90.22396449999997,"$$","restaurant,food,point_of_interest,establishment","(314) 535-4340","http://www.pappyssmokehouse.com/","https://maps.google.com/?cid=16169721288849467854","Restaurant / Bar"]
+					,["Fork & Stix","549 Rosedale Ave, St. Louis, MO 63112, United States",38.6546868,-90.29620190000003,"N/A","restaurant,food,point_of_interest,establishment","(314) 863-5572","http://forknstix.com/","https://maps.google.com/?cid=232062982282731462","Restaurant / Bar"]
+					,["Quincy Street Bistro","6931 Gravois Ave, St. Louis, MO 63116, United States",38.5694263,-90.2860978,"$$","restaurant,food,point_of_interest,establishment","(314) 353-1588","http://www.quincystreetbistro.com/","https://maps.google.com/?cid=15150638471671369327","Restaurant / Bar"]
+					,["Bogart's Smokehouse","1627 S 9th St, St. Louis, MO 63104, United States",38.61092010000001,-90.20279499999998,"$$","restaurant,food,point_of_interest,establishment","(314) 621-3107","http://www.bogartssmokehouse.com/","https://maps.google.com/?cid=9537012450169584351","Restaurant / Bar"]
+					,["Mai Lee","8396 Musick Memorial Dr, Brentwood, MO 63144, United States",38.62748,-90.33759299999997,"$$","restaurant,food,point_of_interest,establishment","(314) 645-2835","http://www.maileestl.com/","https://maps.google.com/?cid=8670026539695455785","Restaurant / Bar"]
+					,["Three Flags Tavern","4940 Southwest Ave, St. Louis, MO 63110, United States",38.612028,-90.26942199999996,"N/A","bar,restaurant,food,point_of_interest,establishment","(314) 669-9222","http://threeflagstavern.com/","https://maps.google.com/?cid=7583991717362969129","Restaurant / Bar"]
+					,["Stone Hill Winery","1110 Stone Hill Hwy, Hermann, MO 65041, United States",38.696756,-91.447319,"$$","bar,food,point_of_interest,establishment","(573) 486-2221","http://www.stonehillwinery.com/","https://maps.google.com/?cid=13155920076958588634","Winery"]
+					,["Mount Pleasant Estates","5634 High St, Augusta, MO 63332, United States",38.570493,-90.88557100000003,"N/A","food,point_of_interest,establishment","(636) 482-9463","http://www.mountpleasant.com/","https://maps.google.com/?cid=1164889015586932362","Winery"]
+					,["Hermannhof Vineyards","330 E 1st St, Hermann, MO 65041, United States",38.7064505,-91.43120499999998,"N/A","food,store,point_of_interest,establishment","(573) 486-5959","http://www.hermannhof.com/","https://maps.google.com/?cid=14812039419153954952","Winery"]
+					,["Chaumette Vineyards & Winery","24345 State Route WW, Ste. Genevieve, MO 63670, United States",37.76662279999999,-90.15841390000003,"$$","park,restaurant,food,store,point_of_interest,establishment","(573) 747-1000","http://www.chaumette.com/","https://maps.google.com/?cid=15828597487928933363","Winery"]
+					,["Montelle Winery","201 Montelle Dr, Augusta, MO 63332, United States",38.5859472,-90.85588530000001,"$","cafe,food,point_of_interest,establishment","(888) 595-9463","http://www.montelle.com/","https://maps.google.com/?cid=4792585707307292330","Winery"]
+					,["OakGlenn Vineyards & Winery","1104 Oak Glenn Pl, Hermann, MO 65041, United States",38.7017745,-91.38996409999999,"N/A","food,point_of_interest,establishment","(573) 486-5057","http://oakglenn.com/","https://maps.google.com/?cid=11926649846505919168","Winery"]
+					,["Adam Puchta Winery","1947 Frene Creek Rd, Hermann, MO 65041, United States",38.6690412,-91.4673732,"N/A","liquor_store,food,store,point_of_interest,establishment","(573) 486-5596","http://www.adampuchtawine.com/","https://maps.google.com/?cid=814878712527235998","Winery"]
+					,["Little Hills Winery & Restaurant","501 S Main St, St Charles, MO 63301, United States",38.7777462,-90.48328659999999,"N/A","restaurant,bar,food,point_of_interest,establishment","(636) 946-9339","http://www.littlehillswinery.com/","https://maps.google.com/?cid=10362179694935656759","Winery"]
+					,["Cave Vineyard","21124 Cave Rd, Ste. Genevieve, MO 63670, United States",37.8147097,-90.09642309999998,"N/A","food,point_of_interest,establishment","(573) 543-5284","http://www.cavevineyard.com/","https://maps.google.com/?cid=6966262146789548711","Winery"]
+					,["Bommarito Estate Almond Tree Winery","3718 Grant School Rd, New Haven, MO 63068, United States",38.6121287,-91.30727489999998,"N/A","food,point_of_interest,establishment","(573) 237-5158","undefined","https://maps.google.com/?cid=8426466198671478603","Winery"]
+					,["Ameristar Casino Resort Spa St. Charles","1 Ameristar Blvd, St Charles, MO 63301, United States",38.76707999999999,-90.484557,"N/A","casino,lodging,point_of_interest,establishment","(636) 949-7777","http://www.ameristar.com/st-charles/","https://maps.google.com/?cid=16393331708051161158","Casino"]
+					,["Casino Queen","200 S Front St, East St Louis, IL 62201, United States",38.6263848,-90.17494160000001,"N/A","casino,point_of_interest,establishment","(800) 777-0777","http://www.casinoqueen.com/","https://maps.google.com/?cid=17230044325138745741","Casino"]
+					,["Hollywood Casino & Hotel St. Louis","777 Casino Center Dr, Maryland Heights, MO 63043, United States",38.7542716,-90.4830806,"N/A","casino,night_club,restaurant,food,point_of_interest,establishment","(855) 785-4263","http://www.hollywoodcasinostlouis.com/","https://maps.google.com/?cid=17154674743821045876","Casino"]
+					,["Lumiere Place Casino and Hotels","999 N 2nd St, St. Louis, MO 63102, United States",38.63288900000001,-90.18481199999997,"$$$","casino,spa,lodging,point_of_interest,establishment","(314) 881-7777","http://www.lumiereplace.com/","https://maps.google.com/?cid=10637923456241256186","Casino"]];
+
+				var colorDict = {"Breweries": "ffff00", "Farmer's Market": "00FF00", "Museums": "FF69B4", "Recreation": "0000FF", "Restaurant / Bar": "ff0000", "Winery": "FFFFFF", "Casino": "D3D3D3", "Sports": "FFA500", "Theater": "800080"}
+
+				var infowindow = new google.maps.InfoWindow({
+						maxWidth: 200
+					});
+
+
+				for (var i = combo.length - 1; i >= 0; i--) {
+					//0 = Title
+					//1 = Address
+					//2 = Lat
+					//3 = Lng
+					//4 = Price
+					//5 = Tags
+					//6 = Phone
+					//7 = Website
+					//8 = Google Maps
+					var CurLatLng = {lat: combo[i][2], lng: combo[i][3]};
+
+					
+					var title = combo[i][0];
+					var address = combo[i][1];
+					var pricePoint = combo[i][4];
+					var tags = combo[i][5];
+					var phoneNumber = combo[i][6];
+					var website = combo[i][7];
+					var gMapsLink = combo[i][8];
+					var category = combo[i][9];
+
+					var pinColor = colorDict[category];
+					var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+						new google.maps.Size(21, 34),
+						new google.maps.Point(0,0),
+						new google.maps.Point(10, 34));
+
+					var marker = new google.maps.Marker({
+						position: CurLatLng,
+						map: map,
+						icon: pinImage,
+						title: title
+					});
+
+
+
+					if (website.startsWith("http")) {
+						website = "<a href=\""+website+"\">Website</a>";
+					}
+					if (gMapsLink.startsWith("http")) {
+						gMapsLink = "<a href=\""+gMapsLink+"\">Link</a>";
+					}
+
+					var content = "<h3>"+title+"</h3>"+
+						"<br /><b>Address: </b>"+address+
+						"<br /><b>Price Point: </b>"+pricePoint+
+						"<br /><b>Tags: </b>"+tags+
+						"<br /><b>Phone Number: </b>"+phoneNumber+
+						"<br /><b>Website: </b>"+website+
+						"<br /><b>Google Maps Link: </b>"+gMapsLink;
+
+					google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+						return function() {
+						 infowindow.setContent(content);
+						 infowindow.open(map,marker);
+						};
+					})(marker,content,infowindow));
+
+				}
+				var legend = document.getElementById('legend');
+				for (var i = 0; i < Object.keys(colorDict).length; i++) {
+					var div = document.createElement('div');
+					//div.setAttribute('style', 'color:#'+colorDict[Object.keys(colorDict)[i]]);
+					//div.innerHTML = Object.keys(colorDict)[i];
+					var img = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + colorDict[Object.keys(colorDict)[i]];
+					div.innerHTML = '<img src="' + img + '"> ' + Object.keys(colorDict)[i];
+					//div.innerHTML = "<div style:'border:1px solid #000, color:#"+colorDict[Object.keys(colorDict)[i]]+"'>Hi!</div>"+Object.keys(colorDict)[i];
+					legend.appendChild(div);
+				}
+				map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('legend'));
+			}
+			
+			function geocodeAddress(geocoder, resultsMap, address) {
+				geocoder.geocode({'address': address}, function(results, status) {
+					if (status === 'OK') {
+						console.log("'"+address+"',"+results[0].geometry.location.lat()+","+results[0].geometry.location.lng());
+						resultsMap.setCenter(results[0].geometry.location);
+						var marker = new google.maps.Marker({
+							map: resultsMap,
+							position: results[0].geometry.location
+						});
+					} else {
+						alert('Geocode was not successful for the following reason: ' + status);
+					}
+				});
+			}
+		</script>
+		<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5ZcYsDuY7HfaZqZdzG9KbM6oYiQ5KwZg&callback=initMap">
+		</script>
+	</body>
+</html>
