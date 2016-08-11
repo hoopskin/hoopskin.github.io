@@ -10,7 +10,7 @@ var revConversionNumbers = conversionNumbers.reverse()
 var revConversionLetters = conversionLetters.reverse()
 
 function changeType(romanOrNumber, partIdx) {
-	//TODO: Change dropdown name to 'Roman' or 'Number'
+	$("button").eq(partIdx-1).html(romanOrNumber+"<span class=\"caret\"></span>");
 
 	//Modify global var to match
 	if (partIdx == 1) {
